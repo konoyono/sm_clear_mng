@@ -11,7 +11,7 @@ import sys
  
 SPREADSHEET_ID = '1IbQuBNPa6jWRpgO-MQr56SUExnU5qc-WHzmz2tNcq8k'
 RANGE_NAME_RT = 'メインシート!A2'
-RANGE_NAME_CR = 'クリア率!B27'
+RANGE_NAME_NC = '未クリア曲!A2'
 MAJOR_DIMENSION = 'ROWS'
  
 CLIENT_SECRET_FILE = '/Users/okada-toshiki/Downloads/client_secret_596362052363-ag8g6o8ufmi9ao3l6vt3cuig0blcugj4.apps.googleusercontent.com.json'
@@ -36,7 +36,7 @@ resource = service.spreadsheets().values()
 parser = argparse.ArgumentParser()
 parser.add_argument('result_table', nargs='?', type=argparse.FileType('r'),
                     default=sys.stdin)
-parser.add_argument('clear_ratio', nargs='?', type=argparse.FileType('r'),
+parser.add_argument('not_cleared', nargs='?', type=argparse.FileType('r'),
                     default=sys.stdin)
 args = parser.parse_args(sys.argv[1:])
  
@@ -51,13 +51,12 @@ resource.update(spreadsheetId=SPREADSHEET_ID, range=RANGE_NAME_RT,
                 valueInputOption='USER_ENTERED', body=rt_body).execute()
 
 
-# クリア率の自動更新は一旦保留
-# cr = csv.reader(args.clear_ratio, delimiter = '\t')
-# cr_data = list(cr)
-# cr_body = {
-#     "range": RANGE_NAME_CR,
-#     "majorDimension": MAJOR_DIMENSION,
-#     "values": cr_data
-# }
-# resource.update(spreadsheetId=SPREADSHEET_ID, range=RANGE_NAME_CR,
-#                 valueInputOption='USER_ENTERED', body=cr_body).execute()
+nc = csv.reader(args.not_cleared, delimiter = '\t')
+nc_data = list(nc)
+nc_body = {
+    "range": RANGE_NAME_NC,
+    "majorDimension": MAJOR_DIMENSION,
+    "values": nc_data
+}
+resource.update(spreadsheetId=SPREADSHEET_ID, range=RANGE_NAME_NC,
+                valueInputOption='USER_ENTERED', body=nc_body).execute()

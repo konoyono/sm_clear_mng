@@ -21,7 +21,9 @@ class FileChangeHandler(PatternMatchingEventHandler):
         filepath = event.src_path
         filename = os.path.basename(filepath)
         subprocess.call(["python3", "analyse_stats.py"])
-        subprocess.call(["python3", "tsv_upload.py", "../Analysed/table_{0:%m%d}.tsv".format(datetime.datetime.now())])
+        subprocess.call(["python3", "tsv_upload.py", 
+            "../Analysed/table_{0:%m%d}.tsv".format(datetime.datetime.now()), 
+            "../Analysed/not_cleared_{0:%m%d}.tsv".format(datetime.datetime.now())])
         print('%s moved' % filename)
 
 # コマンド実行の確認

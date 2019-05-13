@@ -26,6 +26,7 @@ st_lines = doc.toxml().split('\n')
 try:
     os.remove("../Analysed/table_{0:%m%d}.tsv".format(datetime.datetime.now()))
     os.remove("../Analysed/clear_ratio_{0:%m%d}.tsv".format(datetime.datetime.now()))
+    os.remove("../Analysed/not_cleared_{0:%m%d}.tsv".format(datetime.datetime.now()))
 except IOError:
     pass
 
@@ -55,12 +56,14 @@ def get_keys_from_value(d, val):
     return [k for k, v in d.items() if v == val]
 
 def listup_not_cleared(dif, res):
-    for i in range(8, 19):
+    for i in range(7, 19):
         for level in get_keys_from_value(dif, str(i)):
             if res[level] == '未':
-                print(str(i) + "\t" + dif["title"] + "\t" + level + "\t" + res[level])
+                print(str(i) + "\t" + dif["title"] + "\t" + level + "\t" + res[level],
+                    file=codecs.open("../Analysed/not_cleared_{0:%m%d}.tsv".format(datetime.datetime.now()), 'a', 'utf-8'))
             elif res[level] == 'F': 
-                print(str(i) + "\t" + dif["title"] + "\t" + level + "\t" + res[level])
+                print(str(i) + "\t" + dif["title"] + "\t" + level + "\t" + res[level],
+                    file=codecs.open("../Analysed/not_cleared_{0:%m%d}.tsv".format(datetime.datetime.now()), 'a', 'utf-8'))
 
 def sum_clear_ratio(dif, res):
     for v in dif.values():
