@@ -51,6 +51,15 @@ def format_clear_count():
         sum_o15 += clear_count_raw[i]
     clear_count[7] = sum_o15
 
+def get_keys_from_value(d, val):
+    return [k for k, v in d.items() if v == val]
+
+def listup_not_cleared(dif, res):
+    for i in range(9, 19):
+        for level in get_keys_from_value(dif, str(i)):
+            if res[level] == '未' or res[level] == 'F': 
+                print(str(i) + "\t" + dif["title"] + "\t" + level)
+
 def sum_clear_ratio(dif, res):
     for v in dif.values():
         try:
@@ -183,6 +192,7 @@ for smf in sl:
             print_result_table(str(fcount), dict, dict_res)
 
             sum_clear_ratio(dict, dict_res)
+            listup_not_cleared(dict, dict_res)
 
 format_clear_count()
 print_clear_ratio()
