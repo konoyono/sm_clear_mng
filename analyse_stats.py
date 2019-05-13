@@ -55,10 +55,12 @@ def get_keys_from_value(d, val):
     return [k for k, v in d.items() if v == val]
 
 def listup_not_cleared(dif, res):
-    for i in range(9, 19):
+    for i in range(8, 19):
         for level in get_keys_from_value(dif, str(i)):
-            if res[level] == '未' or res[level] == 'F': 
-                print(str(i) + "\t" + dif["title"] + "\t" + level)
+            if res[level] == '未':
+                print(str(i) + "\t" + dif["title"] + "\t" + level + "\t" + res[level])
+            elif res[level] == 'F': 
+                print(str(i) + "\t" + dif["title"] + "\t" + level + "\t" + res[level])
 
 def sum_clear_ratio(dif, res):
     for v in dif.values():
