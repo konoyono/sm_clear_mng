@@ -11,7 +11,8 @@ import sys
  
 SPREADSHEET_ID = '1IbQuBNPa6jWRpgO-MQr56SUExnU5qc-WHzmz2tNcq8k'
 RANGE_NAME_RT = 'メインシート!A2'
-RANGE_NAME_NC = '未クリア曲!A2'
+RANGE_NAME_NC = '未クリア曲!A1'
+RANGE_NAME_INIT = '未クリア曲!A:D'
 MAJOR_DIMENSION = 'ROWS'
  
 CLIENT_SECRET_FILE = '/Users/okada-toshiki/Downloads/client_secret_596362052363-ag8g6o8ufmi9ao3l6vt3cuig0blcugj4.apps.googleusercontent.com.json'
@@ -50,9 +51,23 @@ rt_body = {
 resource.update(spreadsheetId=SPREADSHEET_ID, range=RANGE_NAME_RT,
                 valueInputOption='USER_ENTERED', body=rt_body).execute()
 
+init_data = list()
+# 既に存在するデータ数ぶんだけ初期化要素を append
+data = resource.get(spreadsheetId=SPREADSHEET_ID, range=RANGE_NAME_INIT).execute()
+for i in range(len(data["values"])):
+    init_data.append([" "," "," "," "])
+
+init_body = {
+    "range": RANGE_NAME_INIT,
+    "majorDimension": MAJOR_DIMENSION,
+    "values": init_data
+}
+resource.update(spreadsheetId=SPREADSHEET_ID, range=RANGE_NAME_INIT,
+                valueInputOption='USER_ENTERED', body=init_body).execute()
 
 nc = csv.reader(args.not_cleared, delimiter = '\t')
-nc_data = list(nc)
+nc_data = sorted(list(nc), key=lambda x: int(x[0]))
+
 nc_body = {
     "range": RANGE_NAME_NC,
     "majorDimension": MAJOR_DIMENSION,
