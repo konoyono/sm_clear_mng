@@ -11,4 +11,4 @@
 - 統計情報ファイルへの変更を watchdog で検出し、上記のスクリプトを走らせる
 - ステップマニア本体終了時にこのスクリプトも自動終了する
 
-## クリア管理のエクセルは[これ](https://docs.google.com/spreadsheets/d/1IbQuBNPa6jWRpgO-MQr56SUExnU5qc-WHzmz2tNcq8k/edit#gid=0)
+## クリア管理のスプレッドシートは[これ](https://docs.google.com/spreadsheets/d/1IbQuBNPa6jWRpgO-MQr56SUExnU5qc-WHzmz2tNcq8k/edit#gid=0)
