@@ -12,7 +12,9 @@ import sys
 SPREADSHEET_ID = '1IbQuBNPa6jWRpgO-MQr56SUExnU5qc-WHzmz2tNcq8k'
 RANGE_NAME_RT = 'メインシート!A2'
 RANGE_NAME_NC = '未クリア曲!A2'
+RANGE_NAME_CD = 'クリア済!A2'
 RANGE_NAME_INIT = '未クリア曲!A2:D500'
+RANGE_NAME_INIT_CD = 'クリア済!A2:D500'
 MAJOR_DIMENSION = 'ROWS'
  
 CLIENT_SECRET_FILE = '/Users/okada-toshiki/Downloads/client_secret_596362052363-ag8g6o8ufmi9ao3l6vt3cuig0blcugj4.apps.googleusercontent.com.json'
@@ -39,8 +41,10 @@ parser.add_argument('result_table', nargs='?', type=argparse.FileType('r'),
                     default=sys.stdin)
 parser.add_argument('not_cleared', nargs='?', type=argparse.FileType('r'),
                     default=sys.stdin)
+parser.add_argument('cleared', nargs='?', type=argparse.FileType('r'),
+                    default=sys.stdin)
 args = parser.parse_args(sys.argv[1:])
- 
+
 rt = csv.reader(args.result_table, delimiter = '\t')
 rt_data = list(rt) 
 rt_body = {
@@ -65,6 +69,14 @@ init_body = {
 resource.update(spreadsheetId=SPREADSHEET_ID, range=RANGE_NAME_INIT,
                 valueInputOption='USER_ENTERED', body=init_body).execute()
 
+init_body = {
+    "range": RANGE_NAME_INIT_CD,
+    "majorDimension": MAJOR_DIMENSION,
+    "values": init_data
+}
+resource.update(spreadsheetId=SPREADSHEET_ID, range=RANGE_NAME_INIT_CD,
+                valueInputOption='USER_ENTERED', body=init_body).execute()
+
 nc = csv.reader(args.not_cleared, delimiter = '\t')
 nc_data = sorted(list(nc), key=lambda x: int(x[0]))
 
@@ -75,3 +87,15 @@ nc_body = {
 }
 resource.update(spreadsheetId=SPREADSHEET_ID, range=RANGE_NAME_NC,
                 valueInputOption='USER_ENTERED', body=nc_body).execute()
+
+cd = csv.reader(args.cleared, delimiter = '\t')
+cd_data = sorted(list(cd), key=lambda x: int(x[0]))
+print(cd_data)
+
+cd_body = {
+    "range": RANGE_NAME_CD,
+    "majorDimension": MAJOR_DIMENSION,
+    "values": cd_data
+}
+resource.update(spreadsheetId=SPREADSHEET_ID, range=RANGE_NAME_CD,
+                valueInputOption='USER_ENTERED', body=cd_body).execute()
