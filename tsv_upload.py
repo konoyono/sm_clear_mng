@@ -90,7 +90,6 @@ resource.update(spreadsheetId=SPREADSHEET_ID, range=RANGE_NAME_NC,
 
 cd = csv.reader(args.cleared, delimiter = '\t')
 cd_data = sorted(list(cd), key=lambda x: int(x[0]))
-print(cd_data)
 
 cd_body = {
     "range": RANGE_NAME_CD,
