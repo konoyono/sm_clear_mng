@@ -11,8 +11,8 @@ import sys
  
 SPREADSHEET_ID = '1IbQuBNPa6jWRpgO-MQr56SUExnU5qc-WHzmz2tNcq8k'
 RANGE_NAME_RT = 'メインシート!A2'
-RANGE_NAME_NC = '未クリア曲!A1'
-RANGE_NAME_INIT = '未クリア曲!A:D'
+RANGE_NAME_NC = '未クリア曲!A2'
+RANGE_NAME_INIT = '未クリア曲!A2:D500'
 MAJOR_DIMENSION = 'ROWS'
  
 CLIENT_SECRET_FILE = '/Users/okada-toshiki/Downloads/client_secret_596362052363-ag8g6o8ufmi9ao3l6vt3cuig0blcugj4.apps.googleusercontent.com.json'
