@@ -14,6 +14,11 @@ for path in glob.glob("../Songs/*"):
     sl.append(path)
 sl.sort(key=str.lower)
 
+smfl = list()
+for path in glob.glob("../Songs/*/*"):
+    smfl.append(path)
+smfl.sort(key=str.lower)
+
 stats_src = "/Users/okada-toshiki/Library/Preferences/StepMania 5/LocalProfiles/00000000/Stats.xml"
 stats_dst = "../Stats/stats_{0:%m%d}.xml".format(datetime.datetime.now())
 shutil.copyfile(stats_src, stats_dst)
@@ -130,8 +135,8 @@ def judge_next_level(res):
 
 fcount = 0
 
-for smf in sl:
-    for path in list(Path(smf).glob("*/*.sm")):
+for smf in smfl:
+    for path in list(Path(smf).glob("*.sm")):
         with open(path) as f:
             fcount += 1
             smlines = f.readlines()
@@ -141,8 +146,8 @@ for smf in sl:
                 if '#TITLE:' in smline:
                     title = re.search(r"(?<=\:).+?(?=\;)", smline)
                     dict["title"] = title.group()
+                    dict["version"] = os.path.dirname(smf)[9:]
                     dict["dirname"] = os.path.dirname(path)[3:]
-                    dict["version"] = smf[9:]
                 if 'dance-single:' in smline:
                     if smlines[smline_num+2].rstrip(':\n').lstrip(' ') == "Beginner":
                         dict["Beginner"] = smlines[smline_num+3].rstrip(':\n').lstrip(' ')
