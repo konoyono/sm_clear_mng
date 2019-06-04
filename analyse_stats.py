@@ -10,7 +10,7 @@ from pathlib import Path
 
 # ディレクトリ名の昇順でソート
 sl = list()
-for path in glob.glob("../Songs/00fav/*"):
+for path in glob.glob("../Songs/*"):
     sl.append(path)
 sl.sort(key=str.lower)
 
@@ -57,7 +57,7 @@ def get_keys_from_value(d, val):
     return [k for k, v in d.items() if v == val]
 
 def listup_not_cleared(dif, res):
-    for i in range(8, 19):
+    for i in range(9, 17):
         for level in get_keys_from_value(dif, str(i)):
             if res[level] == '未' or res[level] == 'F':
                 print(str(i) + "\t" + dif["title"] + "\t" + level + "\t" + res[level],
@@ -93,7 +93,7 @@ def sum_clear_ratio(dif, res):
             clear_count_raw[i-1] += 1
 
 def print_result_table(fcount, dict, dict_res):        
-    print(fcount + "\t" + dict["title"] + "\t" 
+    print(fcount + "\t" + dict["title"] + "\t" + dict["version"] + "\t" 
         + dict["Beginner"] + "\t" + dict_res["Beginner"] + "\t"
         + dict["Easy"] + "\t" + dict_res["Easy"] + "\t"
         + dict["Medium"] + "\t" + dict_res["Medium"] + "\t"
@@ -129,18 +129,20 @@ def judge_next_level(res):
     else: return "-"
 
 fcount = 0
+
 for smf in sl:
-    for path in list(Path(smf).glob("*.sm")):
+    for path in list(Path(smf).glob("*/*.sm")):
         with open(path) as f:
             fcount += 1
             smlines = f.readlines()
             smline_num = 0
-            dict = {"dirname":"sample", "title":"sample", "Beginner":"-", "Easy":"-", "Medium":"-", "Hard":"-", "Challenge":"-", "Next":"-"}
+            dict = {"dirname":"sample", "title":"sample", "version":"sample", "Beginner":"-", "Easy":"-", "Medium":"-", "Hard":"-", "Challenge":"-", "Next":"-"}
             for smline in smlines:
                 if '#TITLE:' in smline:
                     title = re.search(r"(?<=\:).+?(?=\;)", smline)
                     dict["title"] = title.group()
                     dict["dirname"] = smf[3:] + "/"
+                    dict["version"] = smf[9:]
                 if 'dance-single:' in smline:
                     if smlines[smline_num+2].rstrip(':\n').lstrip(' ') == "Beginner":
                         dict["Beginner"] = smlines[smline_num+3].rstrip(':\n').lstrip(' ')
