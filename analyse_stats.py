@@ -93,7 +93,7 @@ def sum_clear_ratio(dif, res):
             clear_count_raw[i-1] += 1
 
 def print_result_table(fcount, dict, dict_res):        
-    print(fcount + "\t" + dict["title"] + "\t" + dict["version"] + "\t" 
+    print(fcount + "\t" + dict["version"] + "\t" + dict["title"] + "\t" 
         + dict["Beginner"] + "\t" + dict_res["Beginner"] + "\t"
         + dict["Easy"] + "\t" + dict_res["Easy"] + "\t"
         + dict["Medium"] + "\t" + dict_res["Medium"] + "\t"
