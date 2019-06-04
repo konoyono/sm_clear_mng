@@ -141,7 +141,7 @@ for smf in sl:
                 if '#TITLE:' in smline:
                     title = re.search(r"(?<=\:).+?(?=\;)", smline)
                     dict["title"] = title.group()
-                    dict["dirname"] = smf[3:] + "/"
+                    dict["dirname"] = os.path.dirname(path)[3:]
                     dict["version"] = smf[9:]
                 if 'dance-single:' in smline:
                     if smlines[smline_num+2].rstrip(':\n').lstrip(' ') == "Beginner":
